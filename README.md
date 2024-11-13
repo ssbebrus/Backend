@@ -3,11 +3,11 @@
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone https://github.com/ssbebrus/api_final_yatube.git
+git clone https://github.com/ssbebrus/Backend-Changelog.git
 ```
 
 ```
-cd api_final_yatube
+cd Backend-Changelog
 ```
 
 Cоздать и активировать виртуальное окружение:
