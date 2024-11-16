@@ -20,6 +20,8 @@ class UserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+        from api.models import Basket
+        Basket.objects.create(user=user)
         return user
 
     def create_user(self, email, password=None, **kwargs):

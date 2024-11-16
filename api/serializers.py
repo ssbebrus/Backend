@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import Category, Good, Recipient
+from .models import (
+    Category,
+    Good,
+    Recipient,
+    Basket,
+    BasketItem,
+    PaymentMethod,
+    DeliveryMethod,
+    Checkout,
+    Transaction
+)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -17,4 +27,41 @@ class GoodSerializer(serializers.ModelSerializer):
 class RecipientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipient
+        fields = '__all__'
+
+
+class BasketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Basket
+        fields = '__all__'
+
+
+class BasketItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BasketItem
+        fields = ('id', 'good', 'quantity')
+        read_only_fields = ('basket',)
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = '__all__'
+
+
+class CheckoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Checkout
+        fields = '__all__'
+
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentMethod
+        fields = '__all__'
+
+
+class DeliveryMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryMethod
         fields = '__all__'
