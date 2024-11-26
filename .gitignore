@@ -132,3 +132,7 @@ dmypy.json
 
 media/
 .media
+
+test.py
+
+backend_static

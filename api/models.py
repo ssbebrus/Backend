@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+# check if works
 
 STATUS_CHOICES = (
     'PENDING',
@@ -34,6 +35,7 @@ class Good(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='goods_images', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Товар'

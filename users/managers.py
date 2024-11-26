@@ -4,8 +4,7 @@ from django.contrib.auth.base_user import BaseUserManager
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email=None,
-                     password=None, **kwargs):
+    def _create_user(self, email=None, **kwargs):
         """
         Creates and saves a User with the given email and password.
         """
@@ -18,17 +17,16 @@ class UserManager(BaseUserManager):
             **kwargs
         )
 
-        user.set_password(password)
         user.save(using=self._db)
         from api.models import Basket
         Basket.objects.create(user=user)
         return user
 
-    def create_user(self, email, password=None, **kwargs):
+    def create_user(self, email, **kwargs):
         kwargs.setdefault('is_superuser', False)
-        return self._create_user(email=email, password=password, **kwargs)
+        return self._create_user(email=email, **kwargs)
 
-    def create_superuser(self, email, password, **kwargs):
+    def create_superuser(self, email, **kwargs):
         kwargs.setdefault('is_superuser', True)
         kwargs.setdefault('is_staff', True)
         kwargs.setdefault('is_active', True)
@@ -38,6 +36,5 @@ class UserManager(BaseUserManager):
 
         return self._create_user(
             email=email,
-            password=password,
             **kwargs
         )

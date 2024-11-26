@@ -1,3 +1,5 @@
+from rest_framework.permissions import IsAuthenticated
+
 from .serializers import (
     CategorySerializer,
     GoodSerializer,
@@ -49,6 +51,7 @@ class BasketViewSet(viewsets.ModelViewSet):
 
 
 class BasketItemViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
     queryset = BasketItem.objects.all()
     serializer_class = BasketItemSerializer
 
@@ -56,6 +59,8 @@ class BasketItemViewSet(viewsets.ModelViewSet):
         serializer.save(basket=self.request.user.basket)
 
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return self.queryset.none()
         return self.queryset.filter(basket=self.request.user.basket)
 
 

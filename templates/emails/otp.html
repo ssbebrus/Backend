@@ -1,0 +1,13 @@
+{% load i18n %}
+{% autoescape off %}
+{% block html_body %}
+<p>{% blocktrans %}You're receiving this email because you need to finish activation process on {{ site_name }}.{% endblocktrans %}</p>
+
+<p>{% trans "Your code:" %}</p>
+<h1> {{ otp }} </h1>
+<p>{% trans "Thanks for using our site!" %}</p>
+
+<p>{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+
+{% endblock html_body %}
+{% endautoescape %}

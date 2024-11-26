@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <h1>Главная</h1>
+    {% for good in goods %}
+        <article class="mb-5">
+            {% include 'includes/good.html' %}
+        </article>
+    {% endfor %}
+{% endblock %}
