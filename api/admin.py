@@ -11,6 +11,10 @@ from .models import (
     Transaction,
 )
 # Register your models here.
+
+class BasketAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(Category)
 admin.site.register(Good)
 admin.site.register(Recipient)
