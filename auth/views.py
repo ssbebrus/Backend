@@ -20,11 +20,11 @@ class LoginAPIView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            response = Response(serializer.data)
-            response.data["message"] = "Одноразовый код отправлен на ваш email"
+            response = Response(serializer.validated_data)
             response.status = status.HTTP_200_OK
-            user = User.objects.get(**serializer.data)
-            if user is None:
+            try:
+                user = User.objects.get(email=serializer.validated_data.get('email'))
+            except User.DoesNotExist:
                 response.status = status.HTTP_201_CREATED
                 user = serializer.save()
             gen = pyotp.TOTP(user.secret_key)

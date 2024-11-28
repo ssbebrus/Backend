@@ -25,6 +25,8 @@ from .models import (
 # Create your views here.
 from rest_framework import viewsets
 from .permissions import AdminOrReadOnly, OwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -37,6 +39,9 @@ class GoodViewSet(viewsets.ModelViewSet):
     queryset = Good.objects.all()
     serializer_class = GoodSerializer
     permission_classes = (AdminOrReadOnly,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ('category',)
+    search_fields = ('name', 'category__name')
 
 
 class RecipientViewSet(viewsets.ModelViewSet):

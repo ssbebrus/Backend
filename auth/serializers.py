@@ -4,11 +4,10 @@ from rest_framework import serializers
 
 User = get_user_model()
 
-class LoginSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
     class Meta:
-        model = User
         fields = ('email',)
 
     def create(self, validated_data):
