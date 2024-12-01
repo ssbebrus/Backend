@@ -1,4 +1,7 @@
+import boto3
+from botocore.config import Config
 from rest_framework.permissions import IsAuthenticated
+import os
 
 from .serializers import (
     CategorySerializer,
@@ -27,6 +30,38 @@ from rest_framework import viewsets
 from .permissions import AdminOrReadOnly, OwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
+
+
+class UploadImageView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    # AWS_S3_ENDPOINT_URL = 'http://minio:9000'
+    # AWS_STORAGE_BUCKET_NAME = 'goods'
+    # AWS_QUERYSTRING_AUTH = False
+    s3 = boto3.client(
+        's3',
+        endpoint_url='http://localhost:9000',
+        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+        # config=Config(signature_version='s3v4'),
+    )
+    # Загрузка файла
+    bucket_name = 'goods'
+
+    def post(self, request, *args, **kwargs):
+        file = request.data.get('image')
+        if not file:
+            return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+        name = request.data.get('name')
+        try:
+            self.s3.put_object(Bucket=self.bucket_name, Key=name, Body=file)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"message": "File uploaded successfully"}, status=status.HTTP_200_OK)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
