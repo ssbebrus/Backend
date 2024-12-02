@@ -35,6 +35,6 @@ services:
     depends_on:
       - db
   frontend:
-    build: ./frontend_3_sem
+    build: ../frontend
     ports:
       - "3000:3000"

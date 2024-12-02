@@ -39,6 +39,7 @@ from rest_framework import status
 
 class UploadImageView(APIView):
     parser_classes = (MultiPartParser, FormParser)
+    permission_classes = (AdminOrReadOnly,)
     # AWS_S3_ENDPOINT_URL = 'http://minio:9000'
     # AWS_STORAGE_BUCKET_NAME = 'goods'
     # AWS_QUERYSTRING_AUTH = False
