@@ -64,7 +64,7 @@ class UploadImageView(APIView):
             self.s3.put_object(Bucket=self.bucket_name, Key=name, Body=file)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        public_url = f"http://minio:9000/{self.bucket_name}/{name}/"
+        public_url = f"http://minio:9000/{self.bucket_name}/{name}"
         return Response({"url": public_url}, status=status.HTTP_200_OK)
 
 
