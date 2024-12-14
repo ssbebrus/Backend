@@ -35,6 +35,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 
 class UploadImageView(APIView):
@@ -45,7 +46,7 @@ class UploadImageView(APIView):
     # AWS_QUERYSTRING_AUTH = False
     s3 = boto3.client(
         's3',
-        endpoint_url='http://localhost:9000',
+        endpoint_url='http://minio:9000',
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
         # config=Config(signature_version='s3v4'),
@@ -54,7 +55,7 @@ class UploadImageView(APIView):
     bucket_name = 'goods'
 
     def post(self, request, *args, **kwargs):
-        file = request.data.get('image')
+        file = request.data.get('file')
         if not file:
             return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
         name = request.data.get('name')
