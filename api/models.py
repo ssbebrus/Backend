@@ -35,7 +35,7 @@ class Good(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.URLField(blank=True, null=True)
+    image = models.URLField(blank=True, null=True, validators=[])
 
     class Meta:
         verbose_name = 'Товар'

@@ -55,6 +55,7 @@ class UploadImageView(APIView):
     bucket_name = 'goods'
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         file = request.data.get('file')
         if not file:
             return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
@@ -63,7 +64,8 @@ class UploadImageView(APIView):
             self.s3.put_object(Bucket=self.bucket_name, Key=name, Body=file)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response({"message": "File uploaded successfully"}, status=status.HTTP_200_OK)
+        public_url = f"http://minio:9000/{self.bucket_name}/{name}/"
+        return Response({"url": public_url}, status=status.HTTP_200_OK)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
