@@ -27,7 +27,7 @@ from .models import (
 )
 # Create your views here.
 from rest_framework import viewsets
-from .permissions import AdminOrReadOnly, OwnerOrReadOnly
+from .permissions import AdminOrReadOnly, IsOwner
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -35,7 +35,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 
 class UploadImageView(APIView):
@@ -64,7 +64,7 @@ class UploadImageView(APIView):
             self.s3.put_object(Bucket=self.bucket_name, Key=name, Body=file)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        public_url = f"http://minio:9000/{self.bucket_name}/{name}"
+        public_url = f"http://localhost:9000/{self.bucket_name}/{name}"
         return Response({"url": public_url}, status=status.HTTP_200_OK)
 
 
@@ -86,7 +86,7 @@ class GoodViewSet(viewsets.ModelViewSet):
 class RecipientViewSet(viewsets.ModelViewSet):
     queryset = Recipient.objects.all()
     serializer_class = RecipientSerializer
-    permission_classes = (OwnerOrReadOnly,)
+    permission_classes = (IsAdminUser,)
 
 
 class BasketViewSet(viewsets.ModelViewSet):
@@ -123,10 +123,10 @@ class DeliveryMethodViewSet(viewsets.ModelViewSet):
 class CheckoutViewSet(viewsets.ModelViewSet):
     queryset = Checkout.objects.all()
     serializer_class = CheckoutSerializer
-    permission_classes = (AdminOrReadOnly,)
+    permission_classes = (IsAdminUser,)
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
-    permission_classes = (AdminOrReadOnly,)
+    permission_classes = (IsAdminUser,)

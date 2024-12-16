@@ -19,7 +19,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class GoodSerializer(serializers.ModelSerializer):
-    image = serializers.CharField()
+    image = serializers.CharField(allow_null=True, allow_blank=True)
     class Meta:
         model = Good
         fields = '__all__'
