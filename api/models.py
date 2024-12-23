@@ -19,6 +19,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     parent_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.URLField(blank=True, null=True, validators=[])
 
     class Meta:
         verbose_name = 'Категория'

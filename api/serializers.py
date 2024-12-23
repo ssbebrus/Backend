@@ -13,6 +13,7 @@ from .models import (
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    image = serializers.CharField(allow_null=True, allow_blank=True)
     class Meta:
         model = Category
         fields = '__all__'
