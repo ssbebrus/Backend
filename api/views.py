@@ -88,6 +88,9 @@ class RecipientViewSet(viewsets.ModelViewSet):
     serializer_class = RecipientSerializer
     permission_classes = (IsAdminUser,)
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class BasketViewSet(viewsets.ModelViewSet):
     queryset = Basket.objects.all()

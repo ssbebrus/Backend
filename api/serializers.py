@@ -29,7 +29,7 @@ class GoodSerializer(serializers.ModelSerializer):
 class RecipientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipient
-        fields = '__all__'
+        exclude = ('user',)
 
 
 class BasketSerializer(serializers.ModelSerializer):
