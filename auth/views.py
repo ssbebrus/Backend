@@ -1,11 +1,11 @@
 import random
 
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
-from .serializers import LoginSerializer, LoginConfirmSerializer
+from .serializers import LoginSerializer, LoginConfirmSerializer, LogoutSerializer
 import pyotp
 from .emails import OtpEmail
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -66,8 +66,11 @@ class LoginConfirmAPIView(APIView):
 
 
 class LogoutAPIView(APIView):
+    serializer_class = LogoutSerializer
     def post(self, request):
-        refresh_token = request.session.get('refresh')
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        refresh_token = serializer.data.get('refresh')
         if not refresh_token:
             return Response({'error': 'Необходим Refresh token'},
                             status=status.HTTP_400_BAD_REQUEST)
@@ -78,3 +81,8 @@ class LogoutAPIView(APIView):
             return Response({'error': 'Неверный Refresh token'},
                             status=status.HTTP_400_BAD_REQUEST)
         return Response({'success': 'Выход успешен'}, status=status.HTTP_200_OK)
+
+class UserInfoView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        return Response({'email': request.user.email,'staff': request.user.is_staff}, status=status.HTTP_200_OK)

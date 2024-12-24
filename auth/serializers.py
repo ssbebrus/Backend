@@ -33,3 +33,6 @@ class LoginConfirmSerializer(serializers.Serializer):
                 'otp - обязательное поле'
             )
         return data
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()

@@ -7,4 +7,5 @@ urlpatterns = [
     path('confirm/', views.LoginConfirmAPIView.as_view(), name='confirm'),
     path('logout/', views.LogoutAPIView.as_view(), name='logout'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('info/', views.UserInfoView.as_view(), name='user_info'),
 ]
