@@ -38,8 +38,8 @@ services:
     build: ../frontend
     ports:
       - "3000:3000"
-  gateway:
-    build: ./gateway/
-    ports:
-      - "8000:80"
-    restart: always
+#  gateway:
+#    build: ./gateway/
+#    ports:
+#      - "8000:80"
+#    restart: always
