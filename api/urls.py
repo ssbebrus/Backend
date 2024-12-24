@@ -15,4 +15,5 @@ urlpatterns = [
     path('v1/', include(router.urls)),
     path('v1/images/', views.UploadImageView.as_view()),
     path('v1/auth/', include('auth.urls')),
+    path('v1/me/basket/', views.BasketInfoView.as_view()),
 ]

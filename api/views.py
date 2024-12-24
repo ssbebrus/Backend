@@ -38,6 +38,18 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 
+class BasketInfoView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        try:
+            basket = Basket.objects.get(user=request.user)
+            serializer = BasketSerializer(basket)
+            return Response(serializer.data)
+        except Basket.DoesNotExist:
+            return Response({'error': 'Basket not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
 class UploadImageView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = (AdminOrReadOnly,)
