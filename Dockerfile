@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.12-alpine
 WORKDIR /app
 RUN pip install gunicorn==20.1.0
 COPY requirements.txt .
