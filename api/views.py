@@ -84,15 +84,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (AdminOrReadOnly,)
+    ordering = ('name',)
 
 
 class GoodViewSet(viewsets.ModelViewSet):
     queryset = Good.objects.all()
     serializer_class = GoodSerializer
     permission_classes = (AdminOrReadOnly,)
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filterset_fields = ('category',)
     search_fields = ('name', 'category__name')
+    ordering_fields = ('price',)
 
 
 class RecipientViewSet(viewsets.ModelViewSet):
