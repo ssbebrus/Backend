@@ -95,7 +95,7 @@ class GoodViewSet(viewsets.ModelViewSet):
     filterset_fields = ('category',)
     search_fields = ('name', 'category__name')
     ordering_fields = ('price',)
-    ordering = (-'id',)
+    ordering = ('-id',)
 
 
 class RecipientViewSet(viewsets.ModelViewSet):
